@@ -1,20 +1,23 @@
 import React from "react";
+import { View, Text } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-// import ProfileScreen from '../screens/main/ProfileScreen';
-// import TeamsScreen from '../screens/main/TeamsScreen';
-// import StatsScreen from '../screens/main/StatsScreen';
 
 const Tab = createBottomTabNavigator();
+
+const PlaceholderScreen = () => {
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text>Coming Soon</Text>
+    </View>
+  );
+};
 
 export default function MainAppStack() {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
-      Screens
-      {/* 
-        <Tab.Screen name="Profile" component={ProfileScreen} />
-        <Tab.Screen name="Teams" component={TeamsScreen} />
-      <Tab.Screen name="Stats" component={StatsScreen} /> 
-      */}
+      <Tab.Screen name="Profile" component={PlaceholderScreen} />
+      <Tab.Screen name="Teams" component={PlaceholderScreen} />
+      <Tab.Screen name="Stats" component={PlaceholderScreen} />
     </Tab.Navigator>
   );
 }
