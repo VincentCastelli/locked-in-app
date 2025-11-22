@@ -4,7 +4,6 @@
   "description": "Backend API for LockedIn app",
   "main": "dist/index.js",
   "scripts": {
-    "setup": "node setup.js",
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",

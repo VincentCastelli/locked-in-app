@@ -2,8 +2,6 @@
 
 **Build your game. Showcase the journey.**
 
-Full-stack authentication system with React Native mobile app and Express backend.
-
 ---
 
 ## 📋 Table of Contents
@@ -27,8 +25,36 @@ Full-stack authentication system with React Native mobile app and Express backen
 - Node.js 18+
 - PostgreSQL database (or Prisma Postgres)
 - Expo CLI (optional)
+- [`just`](https://github.com/casey/just) task runner (optional but recommended)
 
-### Install & Run
+### Option A: `just` workflow (recommended)
+
+```bash
+# 0. Install just
+#   Windows (PowerShell): winget install --id=casey.Just
+#   macOS (Homebrew):    brew install just
+
+# 1. Install dependencies
+just install
+
+# 2. Configure environment (single .env in project root)
+cp .env.example .env
+# Edit .env with your DATABASE_URL and other settings
+
+# 3. Prepare database
+just db-migrate
+
+# 4. Start backend server (new terminal)
+just server
+
+# 5. Start mobile app (new terminal)
+just app
+```
+
+Backend runs at `http://localhost:3000`  
+Mobile app: Scan QR code or press `a` for Android, `i` for iOS
+
+### Option B: Manual commands
 
 ```bash
 # 1. Install dependencies
@@ -52,8 +78,18 @@ cd ..
 npm start
 ```
 
-Backend runs at `http://localhost:3000`  
-Mobile app: Scan QR code or press `a` for Android, `i` for iOS
+### Handy `just` recipes
+
+Run `just --list` anytime to see every available task. The most useful recipes are:
+
+| Command           | Purpose                                                                            |
+| ----------------- | ---------------------------------------------------------------------------------- |
+| `just install`    | Install root + server dependencies                                                 |
+| `just db-migrate` | Generate Prisma client (if needed) and apply migrations via server package scripts |
+| `just db-studio`  | Open Prisma Studio against the configured `DATABASE_URL`                           |
+| `just server`     | Start the Express API with hot reload                                              |
+| `just app`        | Launch the Expo dev server                                                         |
+| `just tunnel`     | Spin up the Prisma Data Proxy tunnel (port overrides via `just tunnel 4000`)       |
 
 ---
 
@@ -64,53 +100,23 @@ locked-in-app/
 ├── src/                    # React Native mobile app
 │   ├── api/               # API client functions
 │   ├── components/        # Reusable components
-│   ├── screens/           # Auth screens (SignIn, SignUp, ForgotPassword)
+│   ├── screens/           # App screens
 │   ├── store/             # Zustand state management
-│   ├── middleware/        # Auth middleware (withAuth HOC)
+│   ├── middleware/        # Auth middleware
 │   └── navigation/        # React Navigation setup
 ├── server/                # Express backend
-│   └── src/
-│       ├── routes/        # API endpoints (auth.ts)
-│       ├── middleware/    # JWT authentication
-│       ├── utils/         # JWT, password hashing, email
-│       ├── lib/           # Prisma client
-│       └── index.ts       # Server entry point
+│   ├── src/
+│   |   ├── routes/        # API endpoints
+│   |   ├── middleware/    # JWT authentication
+│   |   ├── utils/         # JWT, password hashing, email
+│   |   ├── lib/           # Prisma client
+│   |   └── index.ts       # Server entry point
+|   └── server/package.json
 ├── prisma/                # Database schema & migrations
 │   ├── schema.prisma     # Database models
 │   └── migrations/       # Migration history
-├── .env                  # Environment variables (git-ignored)
-├── package.json          # Mobile app dependencies
-└── server/package.json   # Backend dependencies
+└── package.json
 ```
-
----
-
-## ✨ Features
-
-### Frontend (React Native + Expo)
-
-- ✅ **Sign In Screen** - Email/password authentication
-- ✅ **Sign Up Screen** - User registration with social auth placeholders
-- ✅ **Forgot Password Screen** - Password reset flow
-- ✅ **Protected Routes** - HOC wrapper for authenticated screens
-- ✅ **Zustand State Management** - Global auth state
-- ✅ **JWT Token Handling** - Automatic token management
-- ✅ **Type-Safe API Client** - TypeScript API functions
-- ✅ **React Navigation** - Conditional auth/main stack
-
-### Backend (Express + TypeScript)
-
-- ✅ **POST /api/auth/signup** - User registration
-- ✅ **POST /api/auth/signin** - User authentication
-- ✅ **POST /api/auth/forgot-password** - Send reset email
-- ✅ **POST /api/auth/reset-password** - Reset password with token
-- ✅ **GET /api/auth/verify** - Verify JWT token
-- ✅ **JWT Authentication Middleware** - Protected routes
-- ✅ **Password Hashing** - bcrypt (10 rounds)
-- ✅ **Email Service** - Nodemailer integration
-- ✅ **PostgreSQL + Prisma ORM** - Type-safe database access
-
----
 
 ## 📖 Setup Guide
 
@@ -227,143 +233,6 @@ export default withAuth(MyProtectedScreen);
 
 ---
 
-## 📡 API Documentation
-
-### Base URL
-
-`http://localhost:3000/api`
-
-### Endpoints
-
-#### **POST /api/auth/signup**
-
-Register a new user.
-
-**Request:**
-
-```json
-{
-  "email": "user@example.com",
-  "password": "password123"
-}
-```
-
-**Response:**
-
-```json
-{
-  "user": {
-    "id": "uuid",
-    "email": "user@example.com",
-    "createdAt": "2025-11-22T...",
-    "updatedAt": "2025-11-22T..."
-  },
-  "token": "eyJhbGciOiJIUzI1NiIs..."
-}
-```
-
-#### **POST /api/auth/signin**
-
-Authenticate a user.
-
-**Request:**
-
-```json
-{
-  "email": "user@example.com",
-  "password": "password123"
-}
-```
-
-**Response:** Same as signup
-
-#### **POST /api/auth/forgot-password**
-
-Send password reset email.
-
-**Request:**
-
-```json
-{
-  "email": "user@example.com"
-}
-```
-
-**Response:**
-
-```json
-{
-  "message": "If an account exists with this email, a password reset link has been sent"
-}
-```
-
-#### **POST /api/auth/reset-password**
-
-Reset password with token.
-
-**Request:**
-
-```json
-{
-  "token": "reset-token-from-email",
-  "newPassword": "newpassword123"
-}
-```
-
-**Response:**
-
-```json
-{
-  "message": "Password reset successful"
-}
-```
-
-#### **GET /api/auth/verify**
-
-Verify JWT token.
-
-**Headers:**
-
-```
-Authorization: Bearer <jwt-token>
-```
-
-**Response:**
-
-```json
-{
-  "user": {
-    "id": "uuid",
-    "email": "user@example.com",
-    "createdAt": "...",
-    "updatedAt": "..."
-  }
-}
-```
-
-### Testing APIs with curl
-
-```bash
-# Health check
-curl http://localhost:3000/health
-
-# Sign up
-curl -X POST http://localhost:3000/api/auth/signup \
-  -H "Content-Type: application/json" \
-  -d '{"email":"test@example.com","password":"password123"}'
-
-# Sign in
-curl -X POST http://localhost:3000/api/auth/signin \
-  -H "Content-Type: application/json" \
-  -d '{"email":"test@example.com","password":"password123"}'
-
-# Verify token (replace YOUR_TOKEN)
-curl -X GET http://localhost:3000/api/auth/verify \
-  -H "Authorization: Bearer YOUR_TOKEN"
-```
-
----
-
 ## 🛠️ Development
 
 ### Backend Development
@@ -400,49 +269,13 @@ npm run prisma:generate  # Generate Prisma Client
 npm run prisma:migrate   # Run database migrations
 ```
 
----
-
-## 🧪 Testing
-
-### Test Backend
-
-1. **Start server**: `cd server && npm run dev`
-2. **Test health**: `curl http://localhost:3000/health`
-3. **Sign up user**: Use curl command above
-4. **Verify token**: Copy token from response and test verify endpoint
-
-### Test Mobile App
-
-1. **Start backend**: `cd server && npm run dev`
-2. **Start app**: `npm start`
-3. **Try flows**:
-   - Sign up with new email
-   - Sign out
-   - Sign in again
-   - Test forgot password
-   - Verify protected screens require auth
-
----
-
-## 🗄️ Database
-
-### User Model
-
-```prisma
-model User {
-  id           String   @id @default(uuid())
-  email        String   @unique
-  password     String
-  phone_number String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-}
-```
-
 ### Database Commands
 
 ```bash
 cd server
+
+# Connect via tunnel locally
+npx @prisma/ppg-tunnel --port <any num>
 
 # View database in browser
 npm run prisma:studio
@@ -496,62 +329,11 @@ npx prisma migrate reset --schema=../prisma/schema.prisma
 
 ## 🔒 Security Best Practices
 
-### Production Checklist
-
-- [ ] Generate strong `JWT_SECRET` (64+ random bytes)
-- [ ] Use HTTPS only
-- [ ] Set `NODE_ENV=production`
-- [ ] Enable rate limiting
-- [ ] Add input sanitization
-- [ ] Implement refresh tokens
-- [ ] Add password complexity requirements
-- [ ] Enable CORS only for your domain
-- [ ] Store tokens securely (AsyncStorage + encryption)
-- [ ] Add biometric authentication (optional)
-- [ ] Enable 2FA (optional)
-
 ### Generate Secure JWT Secret
 
 ```bash
 node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
 ```
-
----
-
-## 📦 Dependencies
-
-### Mobile App
-
-- `react-native` - Mobile framework
-- `expo` - Development platform
-- `@react-navigation` - Navigation
-- `zustand` - State management
-- `@prisma/client` - Database (generated)
-
-### Backend
-
-- `express` - Web framework
-- `typescript` - Type safety
-- `@prisma/client` - Database ORM
-- `jsonwebtoken` - JWT auth
-- `bcryptjs` - Password hashing
-- `nodemailer` - Email service
-- `cors` - CORS middleware
-- `dotenv` - Environment variables
-
----
-
-## 🎯 Next Steps
-
-- [ ] Add token persistence (AsyncStorage)
-- [ ] Implement social authentication (Google, Apple, Facebook)
-- [ ] Add profile management endpoints
-- [ ] Implement refresh tokens
-- [ ] Add user profile screens
-- [ ] Deploy backend (Railway, Render, AWS)
-- [ ] Deploy mobile app (App Store, Play Store)
-- [ ] Add analytics
-- [ ] Implement push notifications
 
 ---
 
@@ -571,7 +353,5 @@ node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
 Private - All rights reserved
 
 ---
-
-**Built with ❤️ for the LockedIn community**
 
 Need help? Check the troubleshooting section or create an issue.

@@ -23,7 +23,7 @@ const config: runtime.GetPrismaClientConfig = {
       "value": "prisma-client"
     },
     "output": {
-      "value": "C:\\Users\\Vincent\\Documents\\CodeApps\\locked-in-app\\src\\generated\\prisma",
+      "value": "c:\\Users\\Vincent\\Documents\\CodeApps\\locked-in-app\\prisma\\generated",
       "fromEnvVar": null
     },
     "config": {
@@ -37,10 +37,10 @@ const config: runtime.GetPrismaClientConfig = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\Vincent\\Documents\\CodeApps\\locked-in-app\\prisma\\schema.prisma",
+    "sourceFilePath": "c:\\Users\\Vincent\\Documents\\CodeApps\\locked-in-app\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
-  "relativePath": "../../../prisma",
+  "relativePath": "..",
   "clientVersion": "6.19.0",
   "engineVersion": "2ba551f319ab1df4bc874a89965d8b3641056773",
   "datasourceNames": [
@@ -55,8 +55,8 @@ const config: runtime.GetPrismaClientConfig = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id           String   @id @default(uuid())\n  email        String   @unique\n  password     String\n  phone_number String?\n  createdAt    DateTime @default(now())\n  updatedAt    DateTime @updatedAt\n}\n",
-  "inlineSchemaHash": "120b90f73d65f90d1994002554210569c39065a03c1a8af738fae2df097ac9bc",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../prisma/generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id           String   @id @default(uuid())\n  email        String   @unique\n  password     String\n  phone_number String?\n  createdAt    DateTime @default(now())\n  updatedAt    DateTime @updatedAt\n}\n",
+  "inlineSchemaHash": "fd356713861d353183a8b80a2a9cce23eae5b794ffa6cf6e770da220340bfaea",
   "copyEngine": false,
   "runtimeDataModel": {
     "models": {},
