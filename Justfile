@@ -1,7 +1,6 @@
-set shell := ["powershell.exe", "-NoLogo", "-NoProfile", "-Command"]
+set shell := ["zsh", "-cu"]
 
 server_dir := "server"
-prisma_schema := "prisma/schema.prisma"
 
 @default:
     just --list
@@ -9,6 +8,7 @@ prisma_schema := "prisma/schema.prisma"
 install:
     npm install
     npm --prefix {{server_dir}} install
+    npm --prefix {{server_dir}} run prisma:generate
 
 app:
     npm start
@@ -40,9 +40,9 @@ db-studio:
     npm --prefix {{server_dir}} run prisma:studio
 
 db-reset:
-    Push-Location {{server_dir}}; npx.cmd prisma migrate reset --schema=../{{prisma_schema}}; Pop-Location
+    npm --prefix {{server_dir}} run prisma:migrate -- reset
 
 # Prisma Data Proxy tunnel
 
-tunnel port=12345:
-    npx.cmd @prisma/ppg-tunnel --port {{port}}
+# tunnel port=12345:
+#     npx.cmd @prisma/ppg-tunnel --port {{port}}

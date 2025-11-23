@@ -8,7 +8,7 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/locked-in-logo.png",
+      "image": "./assets/lockedin-logo-black.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

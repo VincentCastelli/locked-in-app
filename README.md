@@ -111,10 +111,10 @@ locked-in-app/
 │   |   ├── utils/         # JWT, password hashing, email
 │   |   ├── lib/           # Prisma client
 │   |   └── index.ts       # Server entry point
-|   └── server/package.json
-├── prisma/                # Database schema & migrations
-│   ├── schema.prisma     # Database models
-│   └── migrations/       # Migration history
+│   ├── prisma/            # Database schema & migrations
+│   |   ├── schema.prisma  # Database models
+│   |   └── migrations/    # Migration history
+│   └── package.json
 └── package.json
 ```
 
@@ -284,7 +284,7 @@ npm run prisma:studio
 npm run prisma:migrate
 
 # Reset database (WARNING: deletes all data)
-npx prisma migrate reset --schema=../prisma/schema.prisma
+npm run prisma:migrate -- reset
 ```
 
 ---

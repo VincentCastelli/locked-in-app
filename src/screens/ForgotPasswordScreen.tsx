@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Image,
   ImageBackground,
   KeyboardAvoidingView,
   Platform,
@@ -62,7 +63,6 @@ export const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
     <ImageBackground
       source={require("../../assets/hero-bg.png")}
       style={styles.container}
-      blurRadius={10}
     >
       <View style={styles.overlay}>
         <KeyboardAvoidingView
@@ -70,7 +70,11 @@ export const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
           style={styles.content}
         >
           <View style={styles.header}>
-            <Text style={styles.logo}>LockedIn</Text>
+            <Image
+              source={require("../../assets/lockedin-logo-white.png")}
+              style={styles.logo}
+              resizeMode="contain"
+            />
             <Text style={styles.tagline}>
               Build your game. Showcase the journey.
             </Text>
@@ -78,7 +82,6 @@ export const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
 
           <View style={styles.formContainer}>
             <View style={styles.inputContainer}>
-              <Text style={styles.inputIcon}>✉</Text>
               <TextInput
                 style={styles.input}
                 placeholder="Email"
@@ -125,7 +128,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(0, 50, 50, 0.85)",
+    backgroundColor: "rgba(6, 82, 52, 0.55)",
   },
   content: {
     flex: 1,
@@ -137,10 +140,8 @@ const styles = StyleSheet.create({
     marginBottom: 80,
   },
   logo: {
-    fontSize: 56,
-    fontWeight: "bold",
-    color: "#fff",
-    fontStyle: "italic",
+    width: 200,
+    height: 60,
     marginBottom: 8,
   },
   tagline: {
