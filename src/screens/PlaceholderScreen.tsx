@@ -1,5 +1,4 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { withAuth } from "../middleware/withAuth";
 import { useAuthStore } from "../store/authStore";
 
 export const PlaceholderScreen: React.FC = () => {
@@ -45,6 +44,3 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
-
-// Protect this screen with authentication
-withAuth(PlaceholderScreen);
