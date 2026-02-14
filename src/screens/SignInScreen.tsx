@@ -13,6 +13,7 @@ import {
   View,
 } from "react-native";
 import { useAuthStore } from "../store/authStore";
+import { getErrorMessage } from "../api/errors";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "../navigation/AuthStack";
 
@@ -41,10 +42,7 @@ export const SignInScreen: React.FC<Props> = ({ navigation }) => {
     try {
       await signIn(email, password);
     } catch (error) {
-      Alert.alert(
-        "Error",
-        error instanceof Error ? error.message : "Failed to sign in"
-      );
+      Alert.alert("Error", getErrorMessage(error, "Failed to sign in"));
     } finally {
       setIsLoading(false);
     }

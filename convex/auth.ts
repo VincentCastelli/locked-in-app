@@ -1,6 +1,6 @@
 "use node";
 
-import { v } from "convex/values";
+import { v, ConvexError } from "convex/values";
 import { action } from "./_generated/server";
 import { internal } from "./_generated/api";
 import bcrypt from "bcryptjs";
@@ -19,7 +19,7 @@ export const signUp = action({
     const { email, password } = args;
 
     if (password.length < 8) {
-      throw new Error("Password must be at least 8 characters");
+      throw new ConvexError("Password must be at least 8 characters");
     }
 
     // Check if user already exists
@@ -28,7 +28,7 @@ export const signUp = action({
     });
 
     if (existingUser) {
-      throw new Error("User already exists with this email");
+      throw new ConvexError("User already exists with this email");
     }
 
     // Hash password
@@ -62,14 +62,14 @@ export const signIn = action({
     const user = await ctx.runQuery(internal.users.getUserByEmail, { email });
 
     if (!user) {
-      throw new Error("Invalid email or password");
+      throw new ConvexError("Invalid email or password");
     }
 
     // Verify password
     const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (!isValidPassword) {
-      throw new Error("Invalid email or password");
+      throw new ConvexError("Invalid email or password");
     }
 
     return {
@@ -92,13 +92,13 @@ export const resetPassword = action({
     const { email, newPassword } = args;
 
     if (newPassword.length < 8) {
-      throw new Error("Password must be at least 8 characters");
+      throw new ConvexError("Password must be at least 8 characters");
     }
 
     const user = await ctx.runQuery(internal.users.getUserByEmail, { email });
 
     if (!user) {
-      throw new Error("User not found");
+      throw new ConvexError("User not found");
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, SALT_ROUNDS);

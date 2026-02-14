@@ -13,6 +13,7 @@ import {
   Alert,
 } from "react-native";
 import { resetPasswordApi } from "../api/auth";
+import { getErrorMessage } from "../api/errors";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "../navigation/AuthStack";
 
@@ -51,10 +52,7 @@ export const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
         },
       ]);
     } catch (error) {
-      Alert.alert(
-        "Error",
-        error instanceof Error ? error.message : "Failed to reset password"
-      );
+      Alert.alert("Error", getErrorMessage(error, "Failed to reset password"));
     } finally {
       setIsLoading(false);
     }
