@@ -1,28 +1,24 @@
 import { create } from "zustand";
-import { signInApi, signUpApi, forgotPasswordApi } from "../api/auth";
+import { signInApi, signUpApi } from "../api/auth";
 
 interface User {
-  id: string;
+  _id: string;
   email: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: number;
 }
 
 interface AuthState {
   user: User | null;
-  token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string) => Promise<void>;
-  forgotPassword: (email: string) => Promise<void>;
   signOut: () => void;
-  setUser: (user: User, token: string) => void;
+  setUser: (user: User) => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
-  token: null,
   isAuthenticated: false,
   isLoading: false,
 
@@ -31,8 +27,11 @@ export const useAuthStore = create<AuthState>((set) => ({
       set({ isLoading: true });
       const response = await signInApi(email, password);
       set({
-        user: response.user,
-        token: response.token,
+        user: {
+          _id: response.userId,
+          email: response.email,
+          createdAt: response.createdAt,
+        },
         isAuthenticated: true,
         isLoading: false,
       });
@@ -47,8 +46,11 @@ export const useAuthStore = create<AuthState>((set) => ({
       set({ isLoading: true });
       const response = await signUpApi(email, password);
       set({
-        user: response.user,
-        token: response.token,
+        user: {
+          _id: response.userId,
+          email: response.email,
+          createdAt: response.createdAt,
+        },
         isAuthenticated: true,
         isLoading: false,
       });
@@ -58,29 +60,16 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
   },
 
-  forgotPassword: async (email: string) => {
-    try {
-      set({ isLoading: true });
-      await forgotPasswordApi(email);
-      set({ isLoading: false });
-    } catch (error) {
-      set({ isLoading: false });
-      throw error;
-    }
-  },
-
   signOut: () => {
     set({
       user: null,
-      token: null,
       isAuthenticated: false,
     });
   },
 
-  setUser: (user: User, token: string) => {
+  setUser: (user: User) => {
     set({
       user,
-      token,
       isAuthenticated: true,
     });
   },

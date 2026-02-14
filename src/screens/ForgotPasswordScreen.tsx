@@ -12,7 +12,8 @@ import {
   ActivityIndicator,
   Alert,
 } from "react-native";
-import { useAuthStore } from "../store/authStore";
+import { resetPasswordApi } from "../api/auth";
+import { getErrorMessage } from "../api/errors";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "../navigation/AuthStack";
 
@@ -27,33 +28,31 @@ interface Props {
 
 export const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
   const [email, setEmail] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const forgotPassword = useAuthStore((state) => state.forgotPassword);
 
   const handleReset = async () => {
-    if (!email) {
-      Alert.alert("Error", "Please enter your email");
+    if (!email || !newPassword) {
+      Alert.alert("Error", "Please enter your email and new password");
+      return;
+    }
+
+    if (newPassword.length < 8) {
+      Alert.alert("Error", "Password must be at least 8 characters");
       return;
     }
 
     setIsLoading(true);
     try {
-      await forgotPassword(email);
-      Alert.alert(
-        "Success",
-        "Password reset instructions have been sent to your email",
-        [
-          {
-            text: "OK",
-            onPress: () => navigation.navigate("SignIn"),
-          },
-        ]
-      );
+      await resetPasswordApi(email, newPassword);
+      Alert.alert("Success", "Your password has been reset", [
+        {
+          text: "OK",
+          onPress: () => navigation.navigate("SignIn"),
+        },
+      ]);
     } catch (error) {
-      Alert.alert(
-        "Error",
-        error instanceof Error ? error.message : "Failed to reset password"
-      );
+      Alert.alert("Error", getErrorMessage(error, "Failed to reset password"));
     } finally {
       setIsLoading(false);
     }
@@ -90,6 +89,18 @@ export const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
                 onChangeText={setEmail}
                 keyboardType="email-address"
                 autoCapitalize="none"
+                editable={!isLoading}
+              />
+            </View>
+
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={styles.input}
+                placeholder="New Password"
+                placeholderTextColor="rgba(255, 255, 255, 0.6)"
+                value={newPassword}
+                onChangeText={setNewPassword}
+                secureTextEntry
                 editable={!isLoading}
               />
             </View>

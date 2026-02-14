@@ -13,6 +13,7 @@ import {
   Alert,
 } from "react-native";
 import { useAuthStore } from "../store/authStore";
+import { getErrorMessage } from "../api/errors";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "../navigation/AuthStack";
 
@@ -46,10 +47,7 @@ export const SignUpScreen: React.FC<Props> = ({ navigation }) => {
     try {
       await signUp(email, password);
     } catch (error) {
-      Alert.alert(
-        "Error",
-        error instanceof Error ? error.message : "Failed to sign up"
-      );
+      Alert.alert("Error", getErrorMessage(error, "Failed to sign up"));
     } finally {
       setIsLoading(false);
     }
