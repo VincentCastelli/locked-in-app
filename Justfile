@@ -9,6 +9,9 @@ install:
 app:
     npm start
 
+app-tunnel:
+    npx expo start --tunnel
+
 android:
     npm run android
 

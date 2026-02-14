@@ -40,7 +40,7 @@ npx convex dev
 just convex-dev
 
 # 5. Start mobile app (new terminal)
-just app
+just app || just app-tunnel
 ```
 
 Mobile app: Scan QR code or press `a` for Android, `i` for iOS
@@ -67,7 +67,8 @@ Run `just --list` anytime to see every available task:
 | `just install`       | Install dependencies                  |
 | `just convex-dev`    | Start Convex dev server               |
 | `just convex-deploy` | Deploy Convex functions to production |
-| `just app`           | Launch the Expo dev server            |
+| `just app`           | Launch the dev server over wifi       |
+| `just app-tunnel`    | Launch the dev server via expo server |
 
 ---
 
@@ -100,36 +101,6 @@ EXPO_PUBLIC_CONVEX_URL=https://your-deployment.convex.cloud
 ### 2. Database
 
 Convex manages your database automatically. The schema is defined in `convex/schema.ts`. When you run `npx convex dev`, it syncs your schema and functions to your Convex deployment.
-
----
-
-## 🔐 Authentication Flow
-
-### Sign Up
-
-1. User enters email/password → `SignUpScreen`
-2. Frontend calls Convex `auth.signUp` action
-3. Backend hashes password with bcrypt (Node.js action)
-4. User created in Convex database
-5. Response returned to frontend
-6. Frontend stores in Zustand state
-7. User redirected to main app
-
-### Sign In
-
-1. User enters credentials → `SignInScreen`
-2. Frontend calls Convex `auth.signIn` action
-3. Backend verifies password via bcrypt
-4. User data returned to frontend
-5. Frontend stores in Zustand
-6. User redirected to main app
-
-### Reset Password
-
-1. User enters email + new password → `ForgotPasswordScreen`
-2. Frontend calls Convex `auth.resetPassword` action
-3. Backend verifies user exists, hashes new password
-4. Password updated in database
 
 ---
 
