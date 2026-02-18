@@ -1,3 +1,4 @@
+// Standard Expo Babel configuration
 module.exports = function (api) {
   api.cache(true);
   return {
