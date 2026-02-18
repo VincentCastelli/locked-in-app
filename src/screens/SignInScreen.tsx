@@ -60,7 +60,7 @@ export const SignInScreen: React.FC<Props> = ({ navigation }) => {
         >
           <View style={styles.header}>
             <Image
-              source={require("../../assets/lockedin-logo-white.png")}
+              source={require("../../assets/lockedin-logo-dark.png")}
               style={styles.logo}
               resizeMode="contain"
             />
@@ -136,21 +136,22 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(6, 82, 52, 0.55)",
+    backgroundColor: "rgba(6, 82, 52, 0.65)",
   },
   content: {
     flex: 1,
-    justifyContent: "center",
     paddingHorizontal: 24,
+    paddingTop: 60,
   },
   header: {
     alignItems: "center",
-    marginBottom: 80,
+    marginBottom: 140,
   },
   logo: {
-    width: 200,
-    height: 60,
-    marginBottom: 8,
+    width: 410,
+    height: 120,
+    alignSelf: "center",
+    marginLeft: 30,
   },
   tagline: {
     fontSize: 16,
@@ -186,7 +187,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   signInButton: {
-    backgroundColor: "#00D9A3",
+    backgroundColor: "#00D26A",
     borderRadius: 12,
     height: 56,
     justifyContent: "center",
@@ -208,7 +209,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   signUpLink: {
-    color: "#00D9A3",
+    color: "#00D26A",
     fontSize: 14,
     fontWeight: "bold",
   },
