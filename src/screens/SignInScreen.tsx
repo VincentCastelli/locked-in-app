@@ -16,6 +16,7 @@ import { useAuthStore } from "../store/authStore";
 import { getErrorMessage } from "../api/errors";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "../navigation/AuthStack";
+import { PrimaryButton } from "../components";
 
 type SignInScreenNavigationProp = NativeStackNavigationProp<
   AuthStackParamList,
@@ -58,6 +59,7 @@ export const SignInScreen: React.FC<Props> = ({ navigation }) => {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.content}
         >
+          {/* Logo */}
           <View style={styles.header}>
             <Image
               source={require("../../assets/lockedin-logo-dark.png")}
@@ -68,7 +70,7 @@ export const SignInScreen: React.FC<Props> = ({ navigation }) => {
               Build your game. Showcase the journey.
             </Text>
           </View>
-
+          {/* Username and Password */}
           <View style={styles.formContainer}>
             <View style={styles.inputContainer}>
               <TextInput
@@ -82,7 +84,6 @@ export const SignInScreen: React.FC<Props> = ({ navigation }) => {
                 editable={!isLoading}
               />
             </View>
-
             <View style={styles.inputContainer}>
               <TextInput
                 style={styles.input}
@@ -94,26 +95,20 @@ export const SignInScreen: React.FC<Props> = ({ navigation }) => {
                 editable={!isLoading}
               />
             </View>
-
+            {/* Forgot Password */}
             <TouchableOpacity
               onPress={() => navigation.navigate("ForgotPassword")}
               disabled={isLoading}
             >
               <Text style={styles.forgotPassword}>Forgot Password ?</Text>
             </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.signInButton}
-              onPress={handleSignIn}
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <ActivityIndicator color="#000" />
-              ) : (
-                <Text style={styles.signInButtonText}>Sign In</Text>
-              )}
-            </TouchableOpacity>
-
+            {/* Sign In */}
+            <PrimaryButton disabled={isLoading} onPress={handleSignIn}>
+              <PrimaryButton.Text>
+                {isLoading ? "Loading..." : "Sign In"}
+              </PrimaryButton.Text>
+            </PrimaryButton>
+            {/* Create Account */}
             <View style={styles.footer}>
               <Text style={styles.footerText}>Don't have an account? </Text>
               <TouchableOpacity
@@ -149,7 +144,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: 410,
-    height: 120,
+    height: 110,
     alignSelf: "center",
     marginLeft: 30,
   },
@@ -185,19 +180,6 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginBottom: 24,
     fontSize: 14,
-  },
-  signInButton: {
-    backgroundColor: "#00D26A",
-    borderRadius: 12,
-    height: 56,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 24,
-  },
-  signInButtonText: {
-    color: "#000",
-    fontSize: 18,
-    fontWeight: "bold",
   },
   footer: {
     flexDirection: "row",

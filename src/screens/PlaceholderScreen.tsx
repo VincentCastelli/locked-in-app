@@ -1,46 +1,45 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import React from "react";
+import { Button, YStack, Text, XStack, getTokens } from "tamagui";
+import { PrimaryButton } from "../components/PrimaryButton";
+import { Sun, Moon } from "lucide-react-native";
 import { useAuthStore } from "../store/authStore";
+import { useResolvedTheme, useToggleTheme } from "../store/themeStore";
 
 export const PlaceholderScreen: React.FC = () => {
   const { user, signOut } = useAuthStore();
+  const toggle = useToggleTheme();
+  const theme = useResolvedTheme();
+  const sunYellow = getTokens().color.sunYellow.val;
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Welcome to LockedIn!</Text>
-      <Text style={styles.subtitle}>Logged in as: {user?.email}</Text>
-      <TouchableOpacity style={styles.button} onPress={signOut}>
-        <Text style={styles.buttonText}>Sign Out</Text>
-      </TouchableOpacity>
-    </View>
+    <YStack flex={1} bg="$background" pt="$8" px="$6">
+      <XStack justify="flex-end">
+        <Button
+          size="$3"
+          circular
+          bg="transparent"
+          icon={
+            theme === "dark" ? (
+              <Sun size={18} color={sunYellow} />
+            ) : (
+              <Moon size={18} color="black" />
+            )
+          }
+          onPress={toggle}
+        />
+      </XStack>
+
+      <YStack flex={1} justify="center" items="center" gap="$3">
+        <Text fontSize="$7" fontWeight="700" color="$color">
+          Welcome to LockedIn!
+        </Text>
+        <Text fontSize="$4" color="$color8">
+          Logged in as: {user?.email}
+        </Text>
+        <PrimaryButton onPress={signOut}>
+          <PrimaryButton.Text>Sign Out</PrimaryButton.Text>
+        </PrimaryButton>
+      </YStack>
+    </YStack>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  subtitle: {
-    fontSize: 16,
-    marginBottom: 30,
-    color: "#666",
-  },
-  button: {
-    backgroundColor: "#00D26A",
-    paddingHorizontal: 30,
-    paddingVertical: 12,
-    borderRadius: 8,
-  },
-  buttonText: {
-    color: "#000",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-});
