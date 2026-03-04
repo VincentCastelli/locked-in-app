@@ -5,6 +5,7 @@ const PrimaryButtonFrame = styled(Button, {
   bg: "$primary500",
   pressStyle: {
     bg: "$primary700",
+    borderColor: "$primary700",
   },
   hoverStyle: {
     bg: "$primary600",

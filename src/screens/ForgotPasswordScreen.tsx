@@ -2,20 +2,20 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
   Image,
   ImageBackground,
   KeyboardAvoidingView,
   Platform,
-  ActivityIndicator,
   Alert,
 } from "react-native";
 import { resetPasswordApi } from "../api/auth";
 import { getErrorMessage } from "../api/errors";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "../navigation/AuthStack";
+import { PrimaryButton, PrimaryInput } from "../components";
+import { Mail, Lock } from "lucide-react-native";
 
 type ForgotPasswordScreenNavigationProp = NativeStackNavigationProp<
   AuthStackParamList,
@@ -68,6 +68,7 @@ export const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.content}
         >
+          {/* Logo */}
           <View style={styles.header}>
             <Image
               source={require("../../assets/lockedin-logo-dark.png")}
@@ -78,52 +79,39 @@ export const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
               Build your game. Showcase the journey.
             </Text>
           </View>
-
-          <View style={styles.formContainer}>
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.input}
-                placeholder="Email"
-                placeholderTextColor="rgba(255, 255, 255, 0.6)"
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-                autoCapitalize="none"
-                editable={!isLoading}
-              />
-            </View>
-
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.input}
-                placeholder="New Password"
-                placeholderTextColor="rgba(255, 255, 255, 0.6)"
-                value={newPassword}
-                onChangeText={setNewPassword}
-                secureTextEntry
-                editable={!isLoading}
-              />
-            </View>
-
-            <TouchableOpacity
-              style={styles.resetButton}
-              onPress={handleReset}
+          {/* Email & New Password */}
+          <View style={{ flex: 1 }}>
+            <PrimaryInput
+              icon={Mail}
+              placeholder="Email"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
               disabled={isLoading}
-            >
-              {isLoading ? (
-                <ActivityIndicator color="#000" />
-              ) : (
-                <Text style={styles.resetButtonText}>Reset</Text>
-              )}
-            </TouchableOpacity>
-
+            />
+            <PrimaryInput
+              icon={Lock}
+              placeholder="New Password"
+              value={newPassword}
+              onChangeText={setNewPassword}
+              secureTextEntry
+              disabled={isLoading}
+            />
+            {/* Submit */}
+            <PrimaryButton disabled={isLoading} onPress={handleReset}>
+              <PrimaryButton.Text>
+                {isLoading ? "Loading..." : "Reset"}
+              </PrimaryButton.Text>
+            </PrimaryButton>
+            {/* Sign Up Redirect */}
             <View style={styles.footer}>
               <Text style={styles.footerText}>Don't have any account? </Text>
               <TouchableOpacity
                 onPress={() => navigation.navigate("SignUp")}
                 disabled={isLoading}
               >
-                <Text style={styles.signUpLink}>Sign Up here</Text>
+                <Text style={styles.signUpLink}>Sign up here</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -161,44 +149,11 @@ const styles = StyleSheet.create({
     color: "#fff",
     textAlign: "center",
   },
-  formContainer: {
-    width: "100%",
-  },
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.9)",
-    borderRadius: 12,
-    marginBottom: 24,
-    paddingHorizontal: 16,
-    height: 56,
-  },
-  inputIcon: {
-    fontSize: 20,
-    marginRight: 12,
-  },
-  input: {
-    flex: 1,
-    fontSize: 16,
-    color: "#000",
-  },
-  resetButton: {
-    backgroundColor: "#00D26A",
-    borderRadius: 12,
-    height: 56,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 24,
-  },
-  resetButtonText: {
-    color: "#000",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
   footer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 8,
   },
   footerText: {
     color: "#fff",
