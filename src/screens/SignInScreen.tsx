@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  ActivityIndicator,
   Alert,
   Image,
   ImageBackground,
@@ -8,7 +7,6 @@ import {
   Platform,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -16,7 +14,8 @@ import { useAuthStore } from "../store/authStore";
 import { getErrorMessage } from "../api/errors";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "../navigation/AuthStack";
-import { PrimaryButton } from "../components";
+import { PrimaryButton, PrimaryInput } from "../components";
+import { Mail, Lock } from "lucide-react-native";
 
 type SignInScreenNavigationProp = NativeStackNavigationProp<
   AuthStackParamList,
@@ -70,37 +69,31 @@ export const SignInScreen: React.FC<Props> = ({ navigation }) => {
               Build your game. Showcase the journey.
             </Text>
           </View>
-          {/* Username and Password */}
-          <View style={styles.formContainer}>
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.input}
-                placeholder="Email"
-                placeholderTextColor="rgba(255, 255, 255, 0.6)"
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-                autoCapitalize="none"
-                editable={!isLoading}
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.input}
-                placeholder="Password"
-                placeholderTextColor="rgba(255, 255, 255, 0.6)"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry
-                editable={!isLoading}
-              />
-            </View>
+          {/* Email & Password */}
+          <View style={{ flex: 1 }}>
+            <PrimaryInput
+              icon={Mail}
+              placeholder="Email"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              disabled={isLoading}
+            />
+            <PrimaryInput
+              icon={Lock}
+              placeholder="Password"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+              disabled={isLoading}
+            />
             {/* Forgot Password */}
             <TouchableOpacity
               onPress={() => navigation.navigate("ForgotPassword")}
               disabled={isLoading}
             >
-              <Text style={styles.forgotPassword}>Forgot Password ?</Text>
+              <Text style={styles.forgotPassword}>Forgot Password?</Text>
             </TouchableOpacity>
             {/* Sign In */}
             <PrimaryButton disabled={isLoading} onPress={handleSignIn}>
@@ -115,7 +108,7 @@ export const SignInScreen: React.FC<Props> = ({ navigation }) => {
                 onPress={() => navigation.navigate("SignUp")}
                 disabled={isLoading}
               >
-                <Text style={styles.signUpLink}>Sign Up here</Text>
+                <Text style={styles.signUpLink}>Sign up here</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -150,34 +143,13 @@ const styles = StyleSheet.create({
   },
   tagline: {
     fontSize: 16,
-    color: "#fff",
+    color: "white",
     textAlign: "center",
-  },
-  formContainer: {
-    width: "100%",
-  },
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.9)",
-    borderRadius: 12,
-    marginBottom: 16,
-    paddingHorizontal: 16,
-    height: 56,
-  },
-  inputIcon: {
-    fontSize: 20,
-    marginRight: 12,
-  },
-  input: {
-    flex: 1,
-    fontSize: 16,
-    color: "#000",
   },
   forgotPassword: {
-    color: "#fff",
+    color: "white",
     textAlign: "center",
-    marginTop: 8,
+    marginTop: 4,
     marginBottom: 24,
     fontSize: 14,
   },
@@ -185,9 +157,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 8,
   },
   footerText: {
-    color: "#fff",
+    color: "white",
     fontSize: 14,
   },
   signUpLink: {
