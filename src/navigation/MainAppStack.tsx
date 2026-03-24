@@ -10,7 +10,12 @@ export default function MainAppStack() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: "#00D26A",
+        tabBarActiveTintColor: "#a3e635",
+        tabBarInactiveTintColor: "#8c947c",
+        tabBarStyle: {
+          backgroundColor: "#131313",
+          borderTopColor: "#2a2a2a",
+        },
       }}
     >
       <Tab.Screen

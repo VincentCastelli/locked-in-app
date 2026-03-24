@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import {
   Alert,
-  Image,
-  ImageBackground,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -49,31 +48,33 @@ export const SignInScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   return (
-    <ImageBackground
-      source={require("../../assets/hero-bg.png")}
-      style={styles.container}
-    >
-      <View style={styles.overlay}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={styles.content}
+    <View style={styles.container}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.flex}
+      >
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
         >
-          {/* Logo */}
+          {/* Brand */}
           <View style={styles.header}>
-            <Image
-              source={require("../../assets/lockedin-logo-dark.png")}
-              style={styles.logo}
-              resizeMode="contain"
-            />
-            <Text style={styles.tagline}>
-              Build your game. Showcase the journey.
+            <Text style={styles.brand}>LockedIn</Text>
+            <Text style={styles.headline}>
+              UNLEASH YOUR{"\n"}
+              <Text style={styles.headlineAccent}>POTENTIAL.</Text>
+            </Text>
+            <Text style={styles.subtitle}>
+              The high-performance platform for elite athletes and visionary
+              coaches. Track, analyze, and dominate.
             </Text>
           </View>
-          {/* Email & Password */}
-          <View style={{ flex: 1 }}>
+
+          {/* Form */}
+          <View style={styles.form}>
             <PrimaryInput
               icon={Mail}
-              placeholder="Email"
+              placeholder="Email Address"
               value={email}
               onChangeText={setEmail}
               keyboardType="email-address"
@@ -88,70 +89,114 @@ export const SignInScreen: React.FC<Props> = ({ navigation }) => {
               secureTextEntry
               disabled={isLoading}
             />
+
             {/* Forgot Password */}
             <TouchableOpacity
               onPress={() => navigation.navigate("ForgotPassword")}
               disabled={isLoading}
+              style={styles.forgotRow}
             >
-              <Text style={styles.forgotPassword}>Forgot Password?</Text>
+              <Text style={styles.forgotText}>Forgot?</Text>
             </TouchableOpacity>
+
             {/* Sign In */}
             <PrimaryButton disabled={isLoading} onPress={handleSignIn}>
               <PrimaryButton.Text>
-                {isLoading ? "Loading..." : "Sign In"}
+                {isLoading ? "Loading..." : "Get Started"}
               </PrimaryButton.Text>
             </PrimaryButton>
-            {/* Create Account */}
+
+            {/* Divider */}
+            <View style={styles.dividerRow}>
+              <View style={styles.dividerLine} />
+              <Text style={styles.dividerText}>or login with</Text>
+              <View style={styles.dividerLine} />
+            </View>
+
+            {/* Sign Up Redirect */}
             <View style={styles.footer}>
               <Text style={styles.footerText}>Don't have an account? </Text>
               <TouchableOpacity
                 onPress={() => navigation.navigate("SignUp")}
                 disabled={isLoading}
               >
-                <Text style={styles.signUpLink}>Sign up here</Text>
+                <Text style={styles.signUpLink}>Join the roster.</Text>
               </TouchableOpacity>
             </View>
           </View>
-        </KeyboardAvoidingView>
-      </View>
-    </ImageBackground>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#131313",
   },
-  overlay: {
+  flex: {
     flex: 1,
-    backgroundColor: "rgba(6, 82, 52, 0.65)",
   },
-  content: {
-    flex: 1,
-    paddingHorizontal: 24,
-    paddingTop: 60,
+  scrollContent: {
+    flexGrow: 1,
+    paddingHorizontal: 32,
+    paddingTop: 80,
+    paddingBottom: 40,
   },
   header: {
-    alignItems: "center",
-    marginBottom: 140,
+    marginBottom: 48,
   },
-  logo: {
-    width: 410,
-    height: 110,
-    alignSelf: "center",
-    marginLeft: 30,
+  brand: {
+    fontFamily: "SpaceGrotesk_700Bold",
+    fontSize: 28,
+    color: "#a3e635",
+    marginBottom: 16,
   },
-  tagline: {
-    fontSize: 16,
-    color: "white",
-    textAlign: "center",
+  headline: {
+    fontFamily: "SpaceGrotesk_700Bold",
+    fontSize: 38,
+    color: "#e5e2e1",
+    lineHeight: 44,
+    marginBottom: 12,
   },
-  forgotPassword: {
-    color: "white",
-    textAlign: "center",
-    marginTop: 4,
-    marginBottom: 24,
+  headlineAccent: {
+    color: "#a3e635",
+  },
+  subtitle: {
+    fontFamily: "Lexend_400Regular",
     fontSize: 14,
+    color: "#8c947c",
+    lineHeight: 20,
+  },
+  form: {
+    flex: 1,
+  },
+  forgotRow: {
+    alignSelf: "flex-end",
+    marginTop: -8,
+    marginBottom: 24,
+  },
+  forgotText: {
+    fontFamily: "Lexend_500Medium",
+    color: "#e2c62d",
+    fontSize: 13,
+  },
+  dividerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 24,
+  },
+  dividerLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: "#2a2a2a",
+  },
+  dividerText: {
+    fontFamily: "Lexend_400Regular",
+    color: "#8c947c",
+    marginHorizontal: 12,
+    fontSize: 13,
   },
   footer: {
     flexDirection: "row",
@@ -160,12 +205,13 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   footerText: {
-    color: "white",
+    fontFamily: "Lexend_400Regular",
+    color: "#e5e2e1",
     fontSize: 14,
   },
   signUpLink: {
-    color: "#00D26A",
+    fontFamily: "Lexend_700Bold",
+    color: "#a3e635",
     fontSize: 14,
-    fontWeight: "bold",
   },
 });

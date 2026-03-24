@@ -4,18 +4,17 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  Image,
-  ImageBackground,
   KeyboardAvoidingView,
   Platform,
   Alert,
+  ScrollView,
 } from "react-native";
 import { resetPasswordApi } from "../api/auth";
 import { getErrorMessage } from "../api/errors";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "../navigation/AuthStack";
 import { PrimaryButton, PrimaryInput } from "../components";
-import { Mail, Lock } from "lucide-react-native";
+import { Mail } from "lucide-react-native";
 
 type ForgotPasswordScreenNavigationProp = NativeStackNavigationProp<
   AuthStackParamList,
@@ -28,140 +27,195 @@ interface Props {
 
 export const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
   const [email, setEmail] = useState("");
-  const [newPassword, setNewPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleReset = async () => {
-    if (!email || !newPassword) {
-      Alert.alert("Error", "Please enter your email and new password");
-      return;
-    }
-
-    if (newPassword.length < 8) {
-      Alert.alert("Error", "Password must be at least 8 characters");
+    if (!email) {
+      Alert.alert("Error", "Please enter your email address");
       return;
     }
 
     setIsLoading(true);
     try {
-      await resetPasswordApi(email, newPassword);
-      Alert.alert("Success", "Your password has been reset", [
+      await resetPasswordApi(email, "");
+      Alert.alert("Success", "A reset link has been sent to your email", [
         {
           text: "OK",
           onPress: () => navigation.navigate("SignIn"),
         },
       ]);
     } catch (error) {
-      Alert.alert("Error", getErrorMessage(error, "Failed to reset password"));
+      Alert.alert("Error", getErrorMessage(error, "Failed to send reset link"));
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <ImageBackground
-      source={require("../../assets/hero-bg.png")}
-      style={styles.container}
-    >
-      <View style={styles.overlay}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={styles.content}
+    <View style={styles.container}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.flex}
+      >
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
         >
-          {/* Logo */}
+          {/* Back */}
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={styles.backButton}
+            disabled={isLoading}
+          >
+            <Text style={styles.backText}>{"← Back"}</Text>
+          </TouchableOpacity>
+
+          {/* Brand */}
           <View style={styles.header}>
-            <Image
-              source={require("../../assets/lockedin-logo-dark.png")}
-              style={styles.logo}
-              resizeMode="contain"
-            />
-            <Text style={styles.tagline}>
-              Build your game. Showcase the journey.
+            <Text style={styles.brandLabel}>Account Recovery</Text>
+            <Text style={styles.headline}>
+              LOST YOUR{"\n"}
+              <Text style={styles.headlineAccent}>EDGE?</Text>
+            </Text>
+            <Text style={styles.subtitle}>
+              Enter your registered email below. We'll send a high-velocity
+              reset link to get you back in the arena.
             </Text>
           </View>
-          {/* Email & New Password */}
-          <View style={{ flex: 1 }}>
+
+          {/* Form */}
+          <View style={styles.form}>
             <PrimaryInput
               icon={Mail}
-              placeholder="Email"
+              placeholder="Email Address"
               value={email}
               onChangeText={setEmail}
               keyboardType="email-address"
               autoCapitalize="none"
               disabled={isLoading}
             />
-            <PrimaryInput
-              icon={Lock}
-              placeholder="New Password"
-              value={newPassword}
-              onChangeText={setNewPassword}
-              secureTextEntry
-              disabled={isLoading}
-            />
+
             {/* Submit */}
-            <PrimaryButton disabled={isLoading} onPress={handleReset}>
-              <PrimaryButton.Text>
-                {isLoading ? "Loading..." : "Reset"}
-              </PrimaryButton.Text>
-            </PrimaryButton>
-            {/* Sign Up Redirect */}
-            <View style={styles.footer}>
-              <Text style={styles.footerText}>Don't have any account? </Text>
-              <TouchableOpacity
-                onPress={() => navigation.navigate("SignUp")}
-                disabled={isLoading}
-              >
-                <Text style={styles.signUpLink}>Sign up here</Text>
-              </TouchableOpacity>
+            <View style={styles.ctaContainer}>
+              <PrimaryButton disabled={isLoading} onPress={handleReset}>
+                <PrimaryButton.Text>
+                  {isLoading ? "Sending..." : "Send Reset Link"}
+                </PrimaryButton.Text>
+              </PrimaryButton>
             </View>
+
+            {/* Return to Login */}
+            <TouchableOpacity
+              onPress={() => navigation.navigate("SignIn")}
+              style={styles.returnButton}
+              disabled={isLoading}
+            >
+              <Text style={styles.returnText}>Return to Login</Text>
+            </TouchableOpacity>
           </View>
-        </KeyboardAvoidingView>
-      </View>
-    </ImageBackground>
+
+          {/* Footer Badges */}
+          <View style={styles.badgeRow}>
+            <Text style={styles.badge}>PERFORMANCE</Text>
+            <Text style={styles.badgeSeparator}>·</Text>
+            <Text style={styles.badge}>PRECISION</Text>
+            <Text style={styles.badgeSeparator}>·</Text>
+            <Text style={styles.badge}>POWER</Text>
+          </View>
+
+          <Text style={styles.copyright}>© 2024 LockedIn Kinetic Systems</Text>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#131313",
   },
-  overlay: {
+  flex: {
     flex: 1,
-    backgroundColor: "rgba(6, 82, 52, 0.65)",
   },
-  content: {
-    flex: 1,
-    paddingHorizontal: 24,
-    paddingTop: 60,
+  scrollContent: {
+    flexGrow: 1,
+    paddingHorizontal: 32,
+    paddingTop: 56,
+    paddingBottom: 40,
+  },
+  backButton: {
+    marginBottom: 24,
+  },
+  backText: {
+    fontFamily: "Lexend_500Medium",
+    color: "#c2cab0",
+    fontSize: 14,
   },
   header: {
-    alignItems: "center",
-    marginBottom: 140,
+    marginBottom: 40,
   },
-  logo: {
-    width: 410,
-    height: 120,
+  brandLabel: {
+    fontFamily: "Lexend_500Medium",
+    fontSize: 13,
+    color: "#a3e635",
+    textTransform: "uppercase",
+    letterSpacing: 2,
+    marginBottom: 16,
+  },
+  headline: {
+    fontFamily: "SpaceGrotesk_700Bold",
+    fontSize: 38,
+    color: "#e5e2e1",
+    lineHeight: 44,
+    marginBottom: 12,
+  },
+  headlineAccent: {
+    color: "#a3e635",
+  },
+  subtitle: {
+    fontFamily: "Lexend_400Regular",
+    fontSize: 14,
+    color: "#8c947c",
+    lineHeight: 20,
+  },
+  form: {
+    flex: 1,
+  },
+  ctaContainer: {
+    marginTop: 8,
+  },
+  returnButton: {
     alignSelf: "center",
-    marginLeft: 30,
+    marginTop: 24,
   },
-  tagline: {
-    fontSize: 16,
-    color: "#fff",
-    textAlign: "center",
+  returnText: {
+    fontFamily: "Lexend_500Medium",
+    color: "#c2cab0",
+    fontSize: 14,
   },
-  footer: {
+  badgeRow: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 8,
+    marginTop: 48,
+    marginBottom: 12,
   },
-  footerText: {
-    color: "#fff",
+  badge: {
+    fontFamily: "SpaceGrotesk_700Bold",
+    fontSize: 11,
+    color: "#424936",
+    letterSpacing: 2,
+  },
+  badgeSeparator: {
+    color: "#424936",
+    marginHorizontal: 10,
     fontSize: 14,
   },
-  signUpLink: {
-    color: "#00D26A",
-    fontSize: 14,
-    fontWeight: "bold",
+  copyright: {
+    fontFamily: "Lexend_400Regular",
+    fontSize: 11,
+    color: "#424936",
+    textAlign: "center",
   },
 });

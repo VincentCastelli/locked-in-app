@@ -2,13 +2,15 @@ import { styled, Button } from "tamagui";
 
 const PrimaryButtonFrame = styled(Button, {
   name: "PrimaryButton",
-  bg: "$primary500",
+  bg: "#a3e635",
+  height: 52,
+  rounded: 12,
   pressStyle: {
-    bg: "$primary700",
-    borderColor: "$primary700",
+    bg: "#98da27",
+    borderColor: "#98da27",
   },
   hoverStyle: {
-    bg: "$primary600",
+    bg: "#ccff80",
   },
   variants: {
     fullWidth: {
@@ -21,8 +23,11 @@ const PrimaryButtonFrame = styled(Button, {
 
 const PrimaryButtonText = styled(Button.Text, {
   name: "PrimaryButtonText",
-  color: "$white",
+  color: "#213600",
   fontWeight: "bold",
+  textTransform: "uppercase",
+  letterSpacing: 1,
+  fontSize: 15,
 });
 
 export const PrimaryButton = PrimaryButtonFrame as typeof PrimaryButtonFrame & {
