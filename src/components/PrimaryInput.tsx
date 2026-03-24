@@ -1,25 +1,23 @@
 import React, { ComponentProps } from "react";
 import { StyleSheet, View } from "react-native";
-import { styled, Input, useTheme } from "tamagui";
+import { styled, Input } from "tamagui";
 import type { LucideIcon } from "lucide-react-native";
 
 const PrimaryInputFrame = styled(Input, {
   name: "PrimaryInput",
   size: undefined,
-  bg: "$gray1",
+  bg: "#353534",
   rounded: 12,
-  height: 46,
+  height: 52,
   fontSize: 16,
-  color: "$black",
-  placeholderTextColor: "$gray9",
-  borderWidth: 2,
+  fontFamily: "Lexend_400Regular",
+  color: "#e5e2e1",
+  placeholderTextColor: "#c2cab0",
+  borderWidth: 0,
   borderColor: "transparent",
   focusStyle: {
-    borderColor: "$primary500",
-    shadowColor: "$primary500",
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.5,
-    shadowRadius: 8,
+    bg: "#393939",
+    borderWidth: 0,
   },
   variants: {
     hasIcon: {
@@ -49,13 +47,11 @@ const PrimaryInputWithIcon = React.forwardRef<
   React.ComponentRef<typeof PrimaryInputFrame>,
   PrimaryInputProps
 >(({ icon: Icon, ...props }, ref) => {
-  const theme = useTheme();
-
   return (
     <View style={styles.wrapper}>
       {Icon && (
         <View style={styles.iconContainer}>
-          <Icon size={18} color={theme.gray9.val} />
+          <Icon size={18} color="#c2cab0" />
         </View>
       )}
       <PrimaryInputFrame ref={ref} hasIcon={!!Icon} {...props} />
