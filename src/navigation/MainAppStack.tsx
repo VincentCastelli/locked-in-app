@@ -19,28 +19,37 @@ export default function MainAppStack() {
       }}
     >
       <Tab.Screen
-        name="Home"
+        name="Feed"
         component={PlaceholderScreen}
         options={{
           tabBarIcon: ({ color, size }) => <House color={color} size={size} />,
         }}
       />
       <Tab.Screen
-        name="Discover"
+        name="Tracker"
         component={PlaceholderScreen}
         options={{
           tabBarIcon: ({ color, size }) => <Search color={color} size={size} />,
         }}
       />
       <Tab.Screen
-        name="Teams"
+        name="Profile"
         component={PlaceholderScreen}
         options={{
           tabBarIcon: ({ color, size }) => <Users color={color} size={size} />,
         }}
       />
       <Tab.Screen
-        name="Stats"
+        name="Inbox"
+        component={PlaceholderScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <ChartBar color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Teams"
         component={PlaceholderScreen}
         options={{
           tabBarIcon: ({ color, size }) => (

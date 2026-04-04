@@ -11,7 +11,7 @@ export const PlaceholderScreen: React.FC = () => {
   const theme = useResolvedTheme();
 
   return (
-    <YStack flex={1} bg="#131313" pt="$8" px="$6">
+    <YStack flex={1} bg="$background" pt="$8" px="$6">
       <XStack justify="flex-end">
         <Button
           size="$3"
@@ -29,10 +29,10 @@ export const PlaceholderScreen: React.FC = () => {
       </XStack>
 
       <YStack flex={1} justify="center" items="center" gap="$3">
-        <Text fontSize="$7" fontWeight="700" color="#e5e2e1">
+        <Text fontSize="$7" fontWeight="700" color="$onSurface">
           Welcome to LockedIn!
         </Text>
-        <Text fontSize="$4" color="#8c947c">
+        <Text fontSize="$4" color="$outline">
           Logged in as: {user?.email}
         </Text>
         <PrimaryButton onPress={signOut}>

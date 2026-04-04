@@ -6,17 +6,17 @@ import type { LucideIcon } from "lucide-react-native";
 const PrimaryInputFrame = styled(Input, {
   name: "PrimaryInput",
   size: undefined,
-  bg: "#353534",
+  bg: "$surfaceContainerHighest",
   rounded: 12,
   height: 52,
   fontSize: 16,
-  fontFamily: "Lexend_400Regular",
-  color: "#e5e2e1",
-  placeholderTextColor: "#c2cab0",
+  fontFamily: "$body",
+  color: "$onSurface",
+  placeholderTextColor: "$onSurfaceVariant",
   borderWidth: 0,
   borderColor: "transparent",
   focusStyle: {
-    bg: "#393939",
+    bg: "$surfaceBright",
     borderWidth: 0,
   },
   variants: {
