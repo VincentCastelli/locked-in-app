@@ -37,8 +37,8 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
-#github
-.github/
+# github - ignore skills but keep CODEOWNERS etc.
+.github/skills/
 
 # vscode
 .vscode/
