@@ -79,7 +79,7 @@ export const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
             </Text>
             <Text style={styles.subtitle}>
               Enter your registered email below. We'll send a high-velocity
-              reset link to get you back in the arena.
+              reset link to get you back in the game.
             </Text>
           </View>
 
@@ -123,7 +123,9 @@ export const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.badge}>POWER</Text>
           </View>
 
-          <Text style={styles.copyright}>© 2024 LockedIn Kinetic Systems</Text>
+          <Text style={styles.copyright}>
+            Copyright © 2026 LockedIn. All rights reserved.
+          </Text>
         </ScrollView>
       </KeyboardAvoidingView>
     </View>

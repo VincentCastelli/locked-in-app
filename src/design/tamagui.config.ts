@@ -1,5 +1,37 @@
 import { defaultConfig } from "@tamagui/config/v5";
-import { createTamagui, createTokens } from "tamagui";
+import { createTamagui, createTokens, createFont } from "tamagui";
+
+const bodyFont = createFont({
+  family: "Lexend_400Regular",
+  size: defaultConfig.fonts.body.size,
+  lineHeight: defaultConfig.fonts.body.lineHeight,
+  weight: {
+    1: "400",
+    5: "500",
+    7: "700",
+  },
+  face: {
+    400: { normal: "Lexend_400Regular" },
+    500: { normal: "Lexend_500Medium" },
+    700: { normal: "Lexend_700Bold" },
+  },
+});
+
+const headingFont = createFont({
+  family: "SpaceGrotesk_700Bold",
+  size: defaultConfig.fonts.heading.size,
+  lineHeight: defaultConfig.fonts.heading.lineHeight,
+  weight: {
+    1: "400",
+    5: "500",
+    7: "700",
+  },
+  face: {
+    400: { normal: "SpaceGrotesk_400Regular" },
+    500: { normal: "SpaceGrotesk_500Medium" },
+    700: { normal: "SpaceGrotesk_700Bold" },
+  },
+});
 
 const tokens = createTokens({
   ...defaultConfig.tokens,
@@ -66,9 +98,71 @@ const tokens = createTokens({
   },
 });
 
+const darkTheme = {
+  // Map generic Tamagui keys
+  background: tokens.color.background,
+  color: tokens.color.onSurface,
+
+  // Primary
+  primary: tokens.color.primary,
+  primaryContainer: tokens.color.primaryContainer,
+  primaryFixed: tokens.color.primaryFixed,
+  primaryFixedDim: tokens.color.primaryFixedDim,
+  onPrimary: tokens.color.onPrimary,
+  onPrimaryContainer: tokens.color.onPrimaryContainer,
+  inversePrimary: tokens.color.inversePrimary,
+
+  // Secondary
+  secondary: tokens.color.secondary,
+  secondaryContainer: tokens.color.secondaryContainer,
+  onSecondary: tokens.color.onSecondary,
+  onSecondaryContainer: tokens.color.onSecondaryContainer,
+
+  // Tertiary
+  tertiary: tokens.color.tertiary,
+  tertiaryContainer: tokens.color.tertiaryContainer,
+  onTertiary: tokens.color.onTertiary,
+  onTertiaryContainer: tokens.color.onTertiaryContainer,
+
+  // Surface
+  surface: tokens.color.surface,
+  surfaceDim: tokens.color.surfaceDim,
+  surfaceBright: tokens.color.surfaceBright,
+  surfaceContainer: tokens.color.surfaceContainer,
+  surfaceContainerHigh: tokens.color.surfaceContainerHigh,
+  surfaceContainerHighest: tokens.color.surfaceContainerHighest,
+  surfaceContainerLow: tokens.color.surfaceContainerLow,
+  surfaceContainerLowest: tokens.color.surfaceContainerLowest,
+  surfaceVariant: tokens.color.surfaceVariant,
+  surfaceTint: tokens.color.surfaceTint,
+  onSurface: tokens.color.onSurface,
+  onSurfaceVariant: tokens.color.onSurfaceVariant,
+  inverseSurface: tokens.color.inverseSurface,
+  inverseOnSurface: tokens.color.inverseOnSurface,
+  onBackground: tokens.color.onBackground,
+
+  // Error
+  error: tokens.color.error,
+  errorContainer: tokens.color.errorContainer,
+  onError: tokens.color.onError,
+  onErrorContainer: tokens.color.onErrorContainer,
+
+  // Outline
+  outline: tokens.color.outline,
+  outlineVariant: tokens.color.outlineVariant,
+};
+
 export const tamaguiConfig = createTamagui({
   ...defaultConfig,
   tokens,
+  fonts: {
+    body: bodyFont,
+    heading: headingFont,
+  },
+  themes: {
+    dark: darkTheme,
+    light: darkTheme, // single theme for now
+  },
 });
 
 export default tamaguiConfig;

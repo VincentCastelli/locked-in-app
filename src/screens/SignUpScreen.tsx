@@ -80,7 +80,7 @@ export const SignUpScreen: React.FC<Props> = ({ navigation }) => {
               <Text style={styles.headlineAccent}>ROSTER.</Text>
             </Text>
             <Text style={styles.subtitle}>
-              Enter your credentials to secure your spot in the arena.
+              Enter your details to create an account and start your journey.
             </Text>
           </View>
 
@@ -124,7 +124,7 @@ export const SignUpScreen: React.FC<Props> = ({ navigation }) => {
             {/* Divider */}
             <View style={styles.dividerRow}>
               <View style={styles.dividerLine} />
-              <Text style={styles.dividerText}>Or Sign Up With</Text>
+              <Text style={styles.dividerText}>or sign up with</Text>
               <View style={styles.dividerLine} />
             </View>
 
